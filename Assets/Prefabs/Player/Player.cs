@@ -11,7 +11,14 @@ public class Player : MonoBehaviour
     private InputActions inputActions;
     private Animator animator;
     private int UpperBodyIndex;
-
+    [SerializeField] private Weapon[] startWeaponPrefabs;
+    [SerializeField] private Transform weaponSocket;
+    
+    private List<Weapon> Weapons;
+    private int CurrentActiveWeaponIndex = 0;
+    private Weapon currentActiveWeapon;
+    
+    
     private void Awake()
     {
         inputActions = new InputActions();
@@ -33,13 +40,44 @@ public class Player : MonoBehaviour
         MovementComp = GetComponent<MovementComponent>();
         animator = GetComponent<Animator>();
         UpperBodyIndex = animator.GetLayerIndex("UpperBody");
+        Weapons = new List<Weapon>();
         inputActions.Gameplay.Movement.performed += MovementOnperformed;
         inputActions.Gameplay.Movement.canceled += MovementOncanceled;
         inputActions.Gameplay.CursorPosition.performed += CursorPositionOnperformed;
         inputActions.Gameplay.Fire.performed += Fire;
         inputActions.Gameplay.Fire.canceled += StopFire;
+        InitializeWeapons();
     }
 
+    void InitializeWeapons()
+    {
+        foreach (Weapon weapon in startWeaponPrefabs)
+        {
+            Weapon newWeapon = Instantiate(weapon, weaponSocket);
+            newWeapon.transform.position = weaponSocket.position;
+            newWeapon.transform.rotation = weaponSocket.rotation;
+            newWeapon.transform.parent = weaponSocket;
+            newWeapon.SetActive(false);
+            Weapons.Add(newWeapon);
+        }
+        EquipWeapon(0);
+    }
+
+    void EquipWeapon(int weaponIndex)
+    {
+        if (weaponIndex > Weapons.Count || Weapons[weaponIndex] == currentActiveWeapon)
+        {
+            return;
+        }
+        if (currentActiveWeapon != null)
+        {
+            currentActiveWeapon.SetActive(false);
+        }
+
+        CurrentActiveWeaponIndex = weaponIndex;
+        currentActiveWeapon = Weapons[CurrentActiveWeaponIndex];
+        currentActiveWeapon.SetActive(true);
+    }
     private void StopFire(InputAction.CallbackContext ctx)
     {
         animator.SetLayerWeight(UpperBodyIndex, 0);
@@ -84,6 +122,6 @@ public class Player : MonoBehaviour
 
     public void FireTimePoint()
     {
-        GetComponentInChildren<Weapon>().Fire();
+        currentActiveWeapon.Fire();
     }
 }

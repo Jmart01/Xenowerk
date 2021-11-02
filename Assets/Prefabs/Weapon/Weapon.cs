@@ -9,4 +9,9 @@ public class Weapon : MonoBehaviour
     {
         BulletEmitter.Emit(BulletEmitter.emission.GetBurst(0).maxCount);
     }
+
+    public void SetActive(bool active)
+    {
+        gameObject.SetActive(active);
+    }
 }

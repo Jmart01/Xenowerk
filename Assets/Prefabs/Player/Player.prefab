@@ -48,6 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b03565dec777e2a47a80e94d3f836348, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startWeaponPrefabs: []
+  weaponSocket: {fileID: 0}
 --- !u!143 &3788921143964189882
 CharacterController:
   m_ObjectHideFlags: 0
@@ -106,6 +108,36 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &1041548009420385122
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5375461845278010207}
+  m_Layer: 0
+  m_Name: GunSocket
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5375461845278010207
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041548009420385122}
+  m_LocalRotation: {x: -0.45355418, y: 0.4464663, z: 0.44810724, w: 0.62781876}
+  m_LocalPosition: {x: 0.039, y: 0.039, z: 0.02}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2248065018562429703}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: -75.843, y: 39.06, z: 40.139}
 --- !u!1 &8560016632407288172
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,5 +228,10 @@ PrefabInstance:
 --- !u!4 &7979642753150725783 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 88ba486d780efc948a81f5bd24144a08, type: 3}
+  m_PrefabInstance: {fileID: 7581770060196006268}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2248065018562429703 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8504309617613441659, guid: 88ba486d780efc948a81f5bd24144a08, type: 3}
   m_PrefabInstance: {fileID: 7581770060196006268}
   m_PrefabAsset: {fileID: 0}
