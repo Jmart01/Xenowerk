@@ -33699,7 +33699,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 2.0058327, y: 1}
+    m_SensorSize: {x: 2.1213872, y: 1}
     Iso: 200
     ShutterSpeed: 0.005
     Aperture: 16
@@ -33722,7 +33722,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1056369829}
-  m_LocalRotation: {x: 0.34278312, y: -0.6184657, z: 0.34278318, w: 0.6184656}
+  m_LocalRotation: {x: 0.34278312, y: -0.6184656, z: 0.34278312, w: 0.61846566}
   m_LocalPosition: {x: 5, y: 8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -43831,6 +43831,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 315045503499495056, guid: e2735772cbeeb864da9be315d8607eee, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 677202409877886220, guid: e2735772cbeeb864da9be315d8607eee, type: 3}
       propertyPath: m_Name
       value: Player
@@ -43899,6 +43903,10 @@ PrefabInstance:
       propertyPath: startWeaponPrefabs.Array.data[0]
       value: 
       objectReference: {fileID: 4253770383947179532, guid: e64fdb23fe28b52489cf5fc278d8f370, type: 3}
+    - target: {fileID: 8560016632407288172, guid: e2735772cbeeb864da9be315d8607eee, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2735772cbeeb864da9be315d8607eee, type: 3}
 --- !u!4 &1356877046 stripped
@@ -59735,7 +59743,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1823688464}
-  m_LocalRotation: {x: 0.34278312, y: -0.6184657, z: 0.34278318, w: 0.6184656}
+  m_LocalRotation: {x: 0.34278312, y: -0.6184656, z: 0.34278312, w: 0.61846566}
   m_LocalPosition: {x: 5, y: 8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
