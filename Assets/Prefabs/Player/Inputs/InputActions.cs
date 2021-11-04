@@ -41,6 +41,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwapWeapons"",
+                    ""type"": ""Button"",
+                    ""id"": ""06f25536-c31b-49ed-9acc-6e04b922831a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -120,6 +128,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""415a1724-5964-4d2c-9966-053be0d4ea57"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwapWeapons"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -131,6 +150,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Gameplay_Movement = m_Gameplay.FindAction("Movement", throwIfNotFound: true);
         m_Gameplay_CursorPosition = m_Gameplay.FindAction("CursorPosition", throwIfNotFound: true);
         m_Gameplay_Fire = m_Gameplay.FindAction("Fire", throwIfNotFound: true);
+        m_Gameplay_SwapWeapons = m_Gameplay.FindAction("SwapWeapons", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -183,6 +203,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Gameplay_Movement;
     private readonly InputAction m_Gameplay_CursorPosition;
     private readonly InputAction m_Gameplay_Fire;
+    private readonly InputAction m_Gameplay_SwapWeapons;
     public struct GameplayActions
     {
         private @InputActions m_Wrapper;
@@ -190,6 +211,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_Gameplay_Movement;
         public InputAction @CursorPosition => m_Wrapper.m_Gameplay_CursorPosition;
         public InputAction @Fire => m_Wrapper.m_Gameplay_Fire;
+        public InputAction @SwapWeapons => m_Wrapper.m_Gameplay_SwapWeapons;
         public InputActionMap Get() { return m_Wrapper.m_Gameplay; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -208,6 +230,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Fire.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnFire;
+                @SwapWeapons.started -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwapWeapons;
+                @SwapWeapons.performed -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwapWeapons;
+                @SwapWeapons.canceled -= m_Wrapper.m_GameplayActionsCallbackInterface.OnSwapWeapons;
             }
             m_Wrapper.m_GameplayActionsCallbackInterface = instance;
             if (instance != null)
@@ -221,6 +246,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
+                @SwapWeapons.started += instance.OnSwapWeapons;
+                @SwapWeapons.performed += instance.OnSwapWeapons;
+                @SwapWeapons.canceled += instance.OnSwapWeapons;
             }
         }
     }
@@ -230,5 +258,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnCursorPosition(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnSwapWeapons(InputAction.CallbackContext context);
     }
 }

@@ -46,7 +46,26 @@ public class Player : MonoBehaviour
         inputActions.Gameplay.CursorPosition.performed += CursorPositionOnperformed;
         inputActions.Gameplay.Fire.performed += Fire;
         inputActions.Gameplay.Fire.canceled += StopFire;
+        inputActions.Gameplay.SwapWeapons.performed += SwapWeapon;
         InitializeWeapons();
+    }
+
+    private void SwapWeapon(InputAction.CallbackContext ctx)
+    {
+        SwapWeaponsThenEquip(1);
+    }
+
+    void SwapWeaponsThenEquip(int val)
+    {
+        //expec here
+        if (CurrentActiveWeaponIndex == Weapons.Count-1)
+        {
+            CurrentActiveWeaponIndex = 0;
+            EquipWeapon(CurrentActiveWeaponIndex);
+            return;
+        }
+        CurrentActiveWeaponIndex += val;
+        EquipWeapon(CurrentActiveWeaponIndex);
     }
 
     void InitializeWeapons()
@@ -105,6 +124,7 @@ public class Player : MonoBehaviour
 
     void UpdateAnimationParameters()
     {
+        Debug.Log("Updating animation parameters");
         Vector3 PlayerFacingDirection = MovementComp.GetPlayerDesiredLookDir();
         Vector3 PlayerMoveDir = MovementComp.GetPlayerDesiredMoveDir();
         Vector3 PlayerRight = transform.right;
@@ -112,7 +132,6 @@ public class Player : MonoBehaviour
         float RightDistribution = Vector3.Dot(PlayerRight, PlayerMoveDir);
         animator.SetFloat("MoveForward", ForwardDistribution);
         animator.SetFloat("MoveLeft", RightDistribution);
-        
     }
     // Update is called once per frame
     void Update()
@@ -123,5 +142,6 @@ public class Player : MonoBehaviour
     public void FireTimePoint()
     {
         currentActiveWeapon.Fire();
+        Debug.Log("Firing");
     }
 }
