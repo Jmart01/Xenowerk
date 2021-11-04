@@ -44,9 +44,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""SwapWeapons"",
-                    ""type"": ""Button"",
+                    ""type"": ""Value"",
                     ""id"": ""06f25536-c31b-49ed-9acc-6e04b922831a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
@@ -132,7 +132,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""415a1724-5964-4d2c-9966-053be0d4ea57"",
-                    ""path"": ""<Keyboard>/e"",
+                    ""path"": ""<Mouse>/scroll"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",

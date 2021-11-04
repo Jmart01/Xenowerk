@@ -136,6 +136,10 @@ PrefabInstance:
       propertyPath: m_MotionVectors
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5307317171588392433, guid: 20a0793524848fb4da5703bf17871dbd, type: 3}
+      propertyPath: ShootingAnimation
+      value: 
+      objectReference: {fileID: -203655887218126122, guid: a25c146e8d7f2574ba9a6b6974263b5f, type: 3}
     - target: {fileID: 5509718853973685946, guid: 20a0793524848fb4da5703bf17871dbd, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0

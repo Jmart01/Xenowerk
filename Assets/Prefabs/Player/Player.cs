@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     private List<Weapon> Weapons;
     private int CurrentActiveWeaponIndex = 0;
     private Weapon currentActiveWeapon;
+    private AnimatorOverrideController OverrideController;
     
     
     private void Awake()
@@ -39,6 +40,8 @@ public class Player : MonoBehaviour
     {
         MovementComp = GetComponent<MovementComponent>();
         animator = GetComponent<Animator>();
+        OverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        animator.runtimeAnimatorController = OverrideController;
         UpperBodyIndex = animator.GetLayerIndex("UpperBody");
         Weapons = new List<Weapon>();
         inputActions.Gameplay.Movement.performed += MovementOnperformed;
@@ -52,22 +55,19 @@ public class Player : MonoBehaviour
 
     private void SwapWeapon(InputAction.CallbackContext ctx)
     {
-        SwapWeaponsThenEquip(1);
-    }
-
-    void SwapWeaponsThenEquip(int val)
-    {
-        //expec here
-        if (CurrentActiveWeaponIndex == Weapons.Count-1)
+        int IndexDelta = ctx.ReadValue<Vector2>().y > 0 ? 1 : -1;
+        CurrentActiveWeaponIndex += IndexDelta;
+        if (CurrentActiveWeaponIndex >= Weapons.Count)
         {
             CurrentActiveWeaponIndex = 0;
-            EquipWeapon(CurrentActiveWeaponIndex);
-            return;
         }
-        CurrentActiveWeaponIndex += val;
+
+        if (CurrentActiveWeaponIndex < 0)
+        {
+            CurrentActiveWeaponIndex = Weapons.Count - 1;
+        }
         EquipWeapon(CurrentActiveWeaponIndex);
     }
-
     void InitializeWeapons()
     {
         foreach (Weapon weapon in startWeaponPrefabs)
@@ -96,6 +96,7 @@ public class Player : MonoBehaviour
         CurrentActiveWeaponIndex = weaponIndex;
         currentActiveWeapon = Weapons[CurrentActiveWeaponIndex];
         currentActiveWeapon.SetActive(true);
+        OverrideController["Firing"] = currentActiveWeapon.GetFireAnimation();
     }
     private void StopFire(InputAction.CallbackContext ctx)
     {
@@ -124,7 +125,6 @@ public class Player : MonoBehaviour
 
     void UpdateAnimationParameters()
     {
-        Debug.Log("Updating animation parameters");
         Vector3 PlayerFacingDirection = MovementComp.GetPlayerDesiredLookDir();
         Vector3 PlayerMoveDir = MovementComp.GetPlayerDesiredMoveDir();
         Vector3 PlayerRight = transform.right;
@@ -142,6 +142,5 @@ public class Player : MonoBehaviour
     public void FireTimePoint()
     {
         currentActiveWeapon.Fire();
-        Debug.Log("Firing");
     }
 }
