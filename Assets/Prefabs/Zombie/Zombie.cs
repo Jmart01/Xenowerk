@@ -1,18 +1,25 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem.Processors;
 
 public class Zombie : MonoBehaviour
 {
     private HealthComponent _healthComponent;
-
     private Animator _animator;
-    // Start is called before the first frame update
+    private SightPerceptionComp _sightPerceptionComp;
+    private NavMeshAgent _navMeshAgent;
+    
+
     void Start()
     {
         _healthComponent = GetComponent<HealthComponent>();
         _animator = GetComponent<Animator>();
+        _sightPerceptionComp = GetComponent<SightPerceptionComp>();
+        _navMeshAgent = GetComponent<NavMeshAgent>();
+        _sightPerceptionComp.onPerceptionUpdated += UpdatedPerception;
         
         if (_healthComponent)
         {
@@ -20,6 +27,22 @@ public class Zombie : MonoBehaviour
             _healthComponent._onHitPointDepleted += Dead;
         }
     }
+
+    private void UpdatedPerception(bool successfullysensed, PerceptionStimuli stimuli)
+    {
+        float SpeedVal = _navMeshAgent.acceleration / _navMeshAgent.speed;
+        if (successfullysensed)
+        {
+            _navMeshAgent.SetDestination(stimuli.gameObject.transform.position);
+            Debug.Log(stimuli.gameObject.transform.position);
+            _animator.SetFloat("Speed", SpeedVal);
+        }
+        else
+        {
+            _animator.SetFloat("Speed",Mathf.Lerp(SpeedVal, 0, 1f));
+        }
+    }
+
 
     private void Dead()
     {
