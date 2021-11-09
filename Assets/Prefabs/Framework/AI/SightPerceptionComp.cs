@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -84,5 +85,20 @@ public class SightPerceptionComp : PerceptionComp
 
         float AngleToStimuli = Mathf.Rad2Deg * Mathf.Acos(Vector3.Dot(transform.forward, (stimuli.transform.position - transform.position).normalized));
         return AngleToStimuli < PeriferalAngleDegrees / 2;
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, SightRadius);
+        Gizmos.DrawWireSphere(transform.position, LoseSightRadius);
+        Vector3 forward = transform.forward;
+        Quaternion RotateLeft = Quaternion.AngleAxis(PeriferalAngleDegrees/2, Vector3.up);
+        Quaternion RotateRight = Quaternion.AngleAxis(-PeriferalAngleDegrees / 2,Vector3.up);
+        Gizmos.DrawLine(transform.position, transform.position + RotateLeft * forward *LoseSightRadius);
+        Gizmos.DrawLine(transform.position, transform.position + RotateRight * forward *LoseSightRadius);
+        foreach (var Stimuli in CurrentlySeeingStimulis)
+        {
+            Gizmos.DrawLine(transform.position, Stimuli.transform.position);
+        }
     }
 }

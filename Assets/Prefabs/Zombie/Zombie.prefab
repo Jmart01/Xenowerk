@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 6245879225986721936}
   - component: {fileID: -52832350576385468}
   - component: {fileID: -7653580380267131933}
+  - component: {fileID: 3159199112298144921}
+  - component: {fileID: -2206025424880144945}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Untagged
@@ -59,7 +61,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3523757572803246327}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: 54b9b03c990254f46bb17c573be0774c, type: 3}
   m_Controller: {fileID: 9100000, guid: fbb39a96bc0681248bf26a17f6e204b3, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -150,6 +152,31 @@ MonoBehaviour:
   LoseSightRadius: 6
   PeriferalAngleDegrees: 80
   eyeHeight: 1.6
+--- !u!114 &3159199112298144921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3523757572803246327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 901b057bfcdd2964493a6c84d255d41d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _behaviorTree: {fileID: -2206025424880144945}
+--- !u!114 &-2206025424880144945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3523757572803246327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0112f2e2a92df442be6208d608bc133, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3652667952663392633
 PrefabInstance:
   m_ObjectHideFlags: 0
