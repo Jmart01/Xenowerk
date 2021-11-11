@@ -7,10 +7,12 @@ public class ZombieBehaviorTree : BehaviorTree
    public override void Init(AIController aiController)
    {
       base.Init(aiController);
-      Sequence patrolSequence = new Sequence(aiController);
-         patrolSequence.AddChild(new BTTask_GetNextPatrolPoint(aiController));
-         patrolSequence.AddChild(new BTTask_MoveTo(aiController,"patrolPoint", 1f));
+      aiController.AddBlackboardKey("patrolPoint");
+      Selector patrolSequence = new Selector(aiController);
+         patrolSequence.AddChild(new BTTask_AlwaysFail(aiController));
          patrolSequence.AddChild(new BTTask_Wait(aiController,3));
+         patrolSequence.AddChild(new BTTask_Wait(aiController,4));
+         //the wait for 4 should never be called
       SetRoot(patrolSequence);
    }
 }

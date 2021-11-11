@@ -9,7 +9,7 @@ public class AIController : MonoBehaviour
     [SerializeField] BehaviorTree _behaviorTree;
 
     private Dictionary<string, object> _Blackboard = new Dictionary<string, object>();
-
+    
     public void AddBlackboardKey(string key, object defaultValue = null)
     {
         if (!_Blackboard.ContainsKey(key))
