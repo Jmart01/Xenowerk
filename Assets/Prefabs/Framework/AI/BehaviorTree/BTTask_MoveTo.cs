@@ -5,7 +5,6 @@ public class BTTask_MoveTo : BTNode
 {
     private string _keyName;
     private NavMeshAgent _agent;
-    private GameObject destination;
     private float _acceptableRadius;
     public BTTask_MoveTo(AIController aiController, string keyName, float acceptableRadius) : base(aiController)
     {
@@ -18,14 +17,12 @@ public class BTTask_MoveTo : BTNode
     {
         if (_agent)
         {
-            destination = (GameObject) aiController.GetBlackboardValue(_keyName);
-            if (destination != null)
+            if (GetDestination(out Vector3 destination))
             {
-                _agent.SetDestination(destination.transform.position);
+                _agent.SetDestination(destination);
                 _agent.isStopped = false;
                 return EBTTaskResult.Running;
             }
-            
         }
 
         return EBTTaskResult.Fail;
@@ -33,16 +30,47 @@ public class BTTask_MoveTo : BTNode
 
     public override EBTTaskResult UpdateTask()
     {
-        if (Vector3.Distance(aiController.transform.position, destination.transform.position) <= _acceptableRadius)
+        if (GetDestination(out Vector3 destination))
         {
-            return EBTTaskResult.Success;
+            _agent.SetDestination(destination);
+            if (Vector3.Distance(aiController.transform.position, destination) <= _acceptableRadius)
+            {
+                return EBTTaskResult.Success;
+            }
         }
-
+        else
+        {
+            return EBTTaskResult.Fail;
+        }
         return EBTTaskResult.Running;
     }
 
     public override void FinishTask()
     {
         _agent.isStopped = true;
+    }
+
+    bool GetDestination(out Vector3 Destination)
+    {
+        Destination = Vector3.negativeInfinity;
+        object value = aiController.GetBlackboardValue(_keyName);
+
+        if (value == null)
+        {
+            return false;
+        }
+        if (value.GetType() == typeof(GameObject))
+        {
+            Destination = ((GameObject) value).transform.position;
+            return true;
+        }
+
+        if (value.GetType() == typeof(Vector3))
+        {
+            Destination = (Vector3) value;
+            return true;
+        }
+
+        return false;
     }
 }

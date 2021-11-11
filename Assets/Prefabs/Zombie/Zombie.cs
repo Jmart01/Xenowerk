@@ -28,7 +28,7 @@ public class Zombie : MonoBehaviour
         }
     }
 
-    private void UpdatedPerception(bool successfullysensed, PerceptionStimuli stimuli)
+    private void UpdatedPerception(PerceptionStimuli stimuli,bool successfullysensed)
     {
         float SpeedVal = _navMeshAgent.acceleration / _navMeshAgent.speed;
         if (successfullysensed)

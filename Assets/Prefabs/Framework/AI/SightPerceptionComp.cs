@@ -3,12 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void OnPerceptionUpdated(bool successfullySensed, PerceptionStimuli stimuli);
-
 
 public class SightPerceptionComp : PerceptionComp
 {
-    public OnPerceptionUpdated onPerceptionUpdated;
     private List<PerceptionStimuli> CurrentlySeeingStimulis = new List<PerceptionStimuli>();
     [SerializeField] private float SightRadius = 5f;
     [SerializeField] private float LoseSightRadius = 6f;
@@ -29,7 +26,7 @@ public class SightPerceptionComp : PerceptionComp
             {
                 Debug.Log($"I have seen: {_stimuli.gameObject}");
                 
-                onPerceptionUpdated.Invoke(true, _stimuli);
+                onPerceptionUpdated.Invoke(_stimuli,true );
             }
         }
         if(!Percepted && CurrentlySeeingStimulis.Contains(_stimuli))
@@ -38,7 +35,7 @@ public class SightPerceptionComp : PerceptionComp
             if (onPerceptionUpdated != null)
             {
                 Debug.Log($"I have lost track of: {_stimuli.gameObject}");
-                onPerceptionUpdated.Invoke(false, _stimuli);
+                onPerceptionUpdated.Invoke(_stimuli,false);
             }
         }
 

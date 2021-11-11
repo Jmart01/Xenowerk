@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void OnPerceptionUpdated(PerceptionStimuli stimuli, bool succesfullySensed);
 public abstract class PerceptionComp : MonoBehaviour
 {
+    public OnPerceptionUpdated onPerceptionUpdated;
     private void Start()
     {
         FindObjectOfType<PerceptionSystem>().AddListener(this);

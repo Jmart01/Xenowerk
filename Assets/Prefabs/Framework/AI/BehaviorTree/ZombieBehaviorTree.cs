@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class ZombieBehaviorTree : BehaviorTree
@@ -8,11 +9,17 @@ public class ZombieBehaviorTree : BehaviorTree
    {
       base.Init(aiController);
       aiController.AddBlackboardKey("patrolPoint");
-      Selector patrolSequence = new Selector(aiController);
-         patrolSequence.AddChild(new BTTask_AlwaysFail(aiController));
-         patrolSequence.AddChild(new BTTask_Wait(aiController,3));
-         patrolSequence.AddChild(new BTTask_Wait(aiController,4));
-         //the wait for 4 should never be called
-      SetRoot(patrolSequence);
+      aiController.AddBlackboardKey("Target");
+      Selector RootSelector = new Selector(aiController);
+         BTTask_MoveTo MoveToTarget = new BTTask_MoveTo(aiController, "Target", 1.5f);
+         BlackboardDecorator MoveToTargetDeco = new BlackboardDecorator(aiController, MoveToTarget, "Target", EKeyQuery.Set, EObserverAborts.Both);
+      RootSelector.AddChild(MoveToTargetDeco);
+         Sequence patrolSequence = new Sequence(aiController);
+            patrolSequence.AddChild(new BTTask_GetNextPatrolPoint(aiController));
+            patrolSequence.AddChild(new BTTask_MoveTo(aiController, "patrolPoint", 1f));
+            patrolSequence.AddChild(new BTTask_Wait(aiController,3));
+      RootSelector.AddChild(patrolSequence);
+         
+      SetRoot(RootSelector);
    }
 }

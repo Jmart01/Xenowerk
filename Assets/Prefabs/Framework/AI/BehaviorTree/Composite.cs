@@ -9,6 +9,7 @@ public abstract class Composite : BTNode
         if (!_Children.Contains(newChild))
         {
             _Children.Add(newChild);
+            newChild.Parent = this;
         }
     }
 
@@ -51,12 +52,17 @@ public abstract class Composite : BTNode
             result = _CurrentRunningChild.Start();
             return DetermineResult(result);
         }
-        result = _CurrentRunningChild.UpdateTask();
+        result = _CurrentRunningChild.Update();
         return DetermineResult(result);
     }
     
     public override void FinishTask()
     {
+        if (_Children.Count > 0)
+        {
+            _CurrentRunningChild = _Children[0];
+            _CurrentRunningChildIndex = 0;
+        }
         foreach (var node in _Children)
         {
             node.Finish();
@@ -64,4 +70,9 @@ public abstract class Composite : BTNode
     }
 
     public abstract EBTTaskResult DetermineResult(EBTTaskResult result);
+
+    public int GetChildIndex(BTNode btNode)
+    {
+        return _Children.FindIndex(0, target => { return btNode == target;});
+    }
 }

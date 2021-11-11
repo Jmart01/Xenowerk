@@ -7,6 +7,7 @@ public class BehaviorTree : MonoBehaviour
 {
     private AIController _aiController;
     private BTNode _Root;
+    public BTNode CurrentRunningNode { get; set; }
 
     public void SetRoot(BTNode root)
     {
@@ -32,10 +33,61 @@ public class BehaviorTree : MonoBehaviour
             }
         }
 
-        result = _Root.UpdateTask();
+        result = _Root.Update();
         if (result != EBTTaskResult.Running)
         {
             _Root.Finish();
         }
+    }
+
+    public void Restart()
+    {
+        _Root.Finish();
+    }
+
+    public bool IsRunning(BTNode Node)
+    {
+        if (GetHeirarchy(CurrentRunningNode).Contains(Node))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    List<BTNode> GetHeirarchy(BTNode node)
+    {
+        List<BTNode> Heirarchy = new List<BTNode>();
+        BTNode NextInHierarchy = node;
+        Heirarchy.Add(NextInHierarchy);
+        while (NextInHierarchy.Parent != null)
+        {
+            Heirarchy.Add(NextInHierarchy.Parent);
+            NextInHierarchy = NextInHierarchy.Parent;
+        }
+        Heirarchy.Reverse();
+        return Heirarchy;
+    }
+    
+    public bool IsCurrentLowerThan(BTNode Node)
+    {
+        List<BTNode> CurrentRunningHeirarchy = GetHeirarchy(CurrentRunningNode);
+        List<BTNode> NodeHeirarchy = GetHeirarchy(Node);
+        for (int i = 0; i < CurrentRunningHeirarchy.Count && i < NodeHeirarchy.Count; i++)
+        {
+            BTNode CurrentParent = CurrentRunningHeirarchy[i];
+            BTNode NodeParent = NodeHeirarchy[i];
+            if (CurrentParent == _Root || NodeParent == _Root)
+            {
+                return false;
+            }
+
+            if (CurrentParent != NodeParent)
+            {
+                return CurrentParent.GetNodeIndexInParent() > NodeParent.GetNodeIndexInParent();
+            }
+        }
+
+        return false;
     }
 }

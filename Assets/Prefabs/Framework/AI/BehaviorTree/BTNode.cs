@@ -7,6 +7,22 @@
 
 public abstract class BTNode
 {
+    private bool ShouldAbortTask;
+
+    public int GetNodeIndexInParent()
+    {
+        if (Parent.GetType() == typeof(Selector) || Parent.GetType() == typeof(Sequence))
+        {
+            return ((Composite) Parent).GetChildIndex(this);
+        }
+
+        return 0;
+    }
+    public BTNode Parent { set; get; }
+    public void AbortTask()
+    {
+        ShouldAbortTask = true;
+    }
     public AIController aiController
     {
         get { return AIC; }
@@ -27,20 +43,32 @@ public abstract class BTNode
     private bool _Started;
     private bool _Finished;
 
+    public EBTTaskResult Update()
+    {
+        if (!ShouldAbortTask)
+        {
+            return UpdateTask();
+        }
+
+        return EBTTaskResult.Fail;
+    }
+
     public EBTTaskResult Start()
     {
         if (!_Started)
         {
+            ShouldAbortTask = false;
             _Started = true;
             _Finished = false;
+            aiController.GetBehaviorTree().CurrentRunningNode = this;
             return Execute();
         }
         return EBTTaskResult.Running;
     }
 
-    public void Finish()
+    public virtual void Finish()
     {
-        if (!_Finished)
+        if (!_Finished && HasStarted())
         {
             _Finished = true;
             _Started = false;
