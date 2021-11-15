@@ -6,11 +6,13 @@ public class BTTask_MoveTo : BTNode
     private string _keyName;
     private NavMeshAgent _agent;
     private float _acceptableRadius;
-    public BTTask_MoveTo(AIController aiController, string keyName, float acceptableRadius) : base(aiController)
+    private string _keyNameLastSeenLoc;
+    public BTTask_MoveTo(AIController aiController, string keyName, float acceptableRadius, string keyNameLastSeenLoc=null) : base(aiController)
     {
         _keyName = keyName;
         _agent = aiController.GetComponent<NavMeshAgent>();
         _acceptableRadius = acceptableRadius;
+        _keyNameLastSeenLoc = keyNameLastSeenLoc;
     }
 
     public override EBTTaskResult Execute()
@@ -20,11 +22,16 @@ public class BTTask_MoveTo : BTNode
             if (GetDestination(out Vector3 destination))
             {
                 _agent.SetDestination(destination);
+                if (_keyNameLastSeenLoc != null)
+                {
+                    aiController.SetBlackboardKey(_keyNameLastSeenLoc, destination);
+                }
+
                 _agent.isStopped = false;
                 return EBTTaskResult.Running;
             }
         }
-
+        
         return EBTTaskResult.Fail;
     }
 
