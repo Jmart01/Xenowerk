@@ -21,11 +21,10 @@
 
     public override EBTTaskResult UpdateTask()
     {
-        return EBTTaskResult.Running;
+        return EBTTaskResult.Success;
     }
 
     public override void FinishTask()
     {
-        throw new System.NotImplementedException();
     }
 }

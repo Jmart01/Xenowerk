@@ -33,10 +33,18 @@ public class Zombie : MonoBehaviour
         _animator.SetTrigger("Dead");
     }
 
-    private void TookDamage(int newamt, int oldamt)
+    private void TookDamage(int newamt, int oldamt, GameObject Instigator)
     {
-        Debug.Log($"Took: {newamt - oldamt} of Damage");
+        GetComponent<AIController>().SetBlackboardKey("Target", Instigator.transform.position);
+        //AlertMode();
     }
+
+   /* private void AlertMode()
+    {
+        this would have set the sight radius higher
+        _sightPerceptionComp.
+        transform.LookAt(FindObjectOfType<Player>().transform.position);
+    }*/
 
     public void DeathAnimationFinished()
     {

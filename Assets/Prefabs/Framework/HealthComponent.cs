@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public delegate void OnDamageTaken(int newAmt, int OldAmt);
+public delegate void OnDamageTaken(int newAmt, int OldAmt, GameObject Instigator);
 
 public delegate void OnHitPointDepleted();
 public class HealthComponent : MonoBehaviour
@@ -17,11 +17,11 @@ public class HealthComponent : MonoBehaviour
         Weapon weapon = other.GetComponentInParent<Weapon>();
         if (weapon != null)
         {
-            TakeDamage(weapon.GetBulletDmg());
+            TakeDamage(weapon.GetBulletDmg(), other);
         }
     }
 
-    void TakeDamage(int amt)
+    void TakeDamage(int amt,GameObject Instigator)
     {
         int OldValue = hitPoint;
         hitPoint -= amt;
@@ -41,7 +41,7 @@ public class HealthComponent : MonoBehaviour
             {
                 if (_onDamageTaken != null)
                 {
-                    _onDamageTaken.Invoke(hitPoint, OldValue);
+                    _onDamageTaken.Invoke(hitPoint, OldValue,Instigator);
                 }
             }
         }

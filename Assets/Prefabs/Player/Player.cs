@@ -18,6 +18,7 @@ public class Player : MonoBehaviour
     private int CurrentActiveWeaponIndex = 0;
     private Weapon currentActiveWeapon;
     private AnimatorOverrideController OverrideController;
+    private InGameUI _inGameUI;
     
     
     private void Awake()
@@ -50,7 +51,33 @@ public class Player : MonoBehaviour
         inputActions.Gameplay.Fire.performed += Fire;
         inputActions.Gameplay.Fire.canceled += StopFire;
         inputActions.Gameplay.SwapWeapons.performed += SwapWeapon;
+        inputActions.UI.Pause.performed += TogglePause;
         InitializeWeapons();
+        if (_inGameUI == null)
+        {
+            _inGameUI = FindObjectOfType<InGameUI>();
+        }
+    }
+
+    private void TogglePause(InputAction.CallbackContext obj)
+    {
+        if (Time.timeScale == 0)
+        {
+            Time.timeScale = 1;
+            if (_inGameUI != null)
+            {
+                _inGameUI.SwitchToInGamePanel();
+            }
+        }
+        else
+        {
+            Time.timeScale = 0;
+            if(_inGameUI)
+            {
+                _inGameUI.SwitchToPausePanel();
+                inputActions.Gameplay.Disable();
+            }
+        }
     }
 
     private void SwapWeapon(InputAction.CallbackContext ctx)

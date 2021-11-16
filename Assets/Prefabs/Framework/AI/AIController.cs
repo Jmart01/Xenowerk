@@ -64,6 +64,7 @@ public class AIController : MonoBehaviour
         }
         else
         {
+            SetBlackboardKey("LastSeenLocation", stimuli.transform.position);
             SetBlackboardKey("Target", null);
         }
     }

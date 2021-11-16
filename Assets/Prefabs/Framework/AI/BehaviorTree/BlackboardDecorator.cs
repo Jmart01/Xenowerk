@@ -41,6 +41,10 @@
 
      private void KeyUpdated(string key, object value)
      {
+         if (key != _keyName)
+         {
+             return;
+         }
          if (aiController.GetBehaviorTree().IsRunning(this))
          {
              if (!ShouldDoTask(value))
