@@ -83,10 +83,8 @@
          {
              case EKeyQuery.Set:
                  return value != null;
-                 break;
              case EKeyQuery.NotSet:
                  return value == null;
-                 break;
              default:
                  return false;
          }
