@@ -9,9 +9,11 @@ public delegate void OnHitPointDepleted();
 public class HealthComponent : MonoBehaviour
 {
     [SerializeField] private int hitPoint;
+    [SerializeField] private int MaxHitpoints = 10;
     public OnDamageTaken _onDamageTaken;
     public OnHitPointDepleted _onHitPointDepleted;
-    
+
+    public int GetMaxHitpoints() { return MaxHitpoints;}
     private void OnParticleCollision(GameObject other)
     {
         Weapon weapon = other.GetComponentInParent<Weapon>();
@@ -21,7 +23,9 @@ public class HealthComponent : MonoBehaviour
         }
     }
 
-    void TakeDamage(int amt,GameObject Instigator)
+
+
+    public void TakeDamage(int amt,GameObject Instigator)
     {
         int OldValue = hitPoint;
         hitPoint -= amt;

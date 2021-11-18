@@ -11,6 +11,7 @@ public class SightPerceptionComp : PerceptionComp
     [SerializeField] private float LoseSightRadius = 6f;
     [SerializeField] private float PeriferalAngleDegrees = 80f;
     [SerializeField] private float eyeHeight = 1.6f;
+    [SerializeField] private float AttackRange = 1f;
     
     public override bool EvaluatPerception(PerceptionStimuli _stimuli)
     {
@@ -84,10 +85,21 @@ public class SightPerceptionComp : PerceptionComp
         return AngleToStimuli < PeriferalAngleDegrees / 2;
     }
 
+    /*bool InAttackRange(PerceptionStimuli _stimuli)
+    {
+        bool IsInPeripheralAngleDegrees = this.IsInPeripherals(_stimuli);
+        float DistanceToStimuli = Vector3.Distance(transform.position ,_stimuli.transform.position);
+        float checkRadius = AttackRange;
+        if (IsInPeripheralAngleDegrees && DistanceToStimuli < AttackRange)
+        {
+            
+        }
+    }*/
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(transform.position, SightRadius);
         Gizmos.DrawWireSphere(transform.position, LoseSightRadius);
+        Gizmos.DrawWireSphere(transform.position, AttackRange);
         Vector3 forward = transform.forward;
         Quaternion RotateLeft = Quaternion.AngleAxis(PeriferalAngleDegrees/2, Vector3.up);
         Quaternion RotateRight = Quaternion.AngleAxis(-PeriferalAngleDegrees / 2,Vector3.up);

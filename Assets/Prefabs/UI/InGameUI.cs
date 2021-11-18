@@ -22,6 +22,6 @@ public class InGameUI : MonoBehaviour
 
     public void SetPlayerHealth(int newValue, int oldValue, int MaxValue)
     {
-        
+        PlayerHealthBar.material.SetFloat("_Progress",(float)newValue/(float)MaxValue);
     }
 }

@@ -10,6 +10,11 @@ public class Zombie : MonoBehaviour
     private HealthComponent _healthComponent;
     private Animator _animator;
     private SightPerceptionComp _sightPerceptionComp;
+    private AIController _aiController;
+    private int UpperBodyIndex;
+    [SerializeField] private GameObject HitboxToSpawn;
+    [SerializeField] private GameObject HitboxToSpawnPoint;
+    
 
 
     void Start()
@@ -17,13 +22,23 @@ public class Zombie : MonoBehaviour
         _healthComponent = GetComponent<HealthComponent>();
         _animator = GetComponent<Animator>();
         _sightPerceptionComp = GetComponent<SightPerceptionComp>();
-        
-        
+        UpperBodyIndex = _animator.GetLayerIndex("UpperBody");
+
         if (_healthComponent)
         {
             _healthComponent._onDamageTaken += TookDamage;
             _healthComponent._onHitPointDepleted += Dead;
         }
+
+        if (_aiController)
+        {
+            _aiController._attackTarget += Attack;
+        }
+    }
+
+    private void Attack()
+    {
+        _animator.SetLayerWeight(UpperBodyIndex,1);
     }
 
     private void Dead()
@@ -54,5 +69,15 @@ public class Zombie : MonoBehaviour
     void DestroySelf()
     {
         Destroy(gameObject);
+    }
+
+    public void ResetLayerWeight()
+    {
+        _animator.SetLayerWeight(UpperBodyIndex,0);
+    }
+
+    void SpawnHitBox()
+    {
+        Instantiate(HitboxToSpawn, HitboxToSpawnPoint.transform);
     }
 }

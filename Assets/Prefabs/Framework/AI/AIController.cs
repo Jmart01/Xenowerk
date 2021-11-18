@@ -12,6 +12,7 @@ public class AIController : MonoBehaviour
 
     private Dictionary<string, object> _Blackboard = new Dictionary<string, object>();
     public OnBlackboardKeyUpdated onBlackboardKeyUpdated;
+    public AttackTarget _attackTarget;
     public void AddBlackboardKey(string key, object defaultValue = null)
     {
         if (!_Blackboard.ContainsKey(key))

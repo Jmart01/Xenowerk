@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private int UpperBodyIndex;
     [SerializeField] private Weapon[] startWeaponPrefabs;
     [SerializeField] private Transform weaponSocket;
+    private HealthComponent _playerHealth;
     
     private List<Weapon> Weapons;
     private int CurrentActiveWeaponIndex = 0;
@@ -43,8 +44,13 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         OverrideController = new AnimatorOverrideController(animator.runtimeAnimatorController);
         animator.runtimeAnimatorController = OverrideController;
+
+        _playerHealth = GetComponent<HealthComponent>();
+        _playerHealth._onDamageTaken += PlayerTookDmg;
+        
         UpperBodyIndex = animator.GetLayerIndex("UpperBody");
         Weapons = new List<Weapon>();
+        
         inputActions.Gameplay.Movement.performed += MovementOnperformed;
         inputActions.Gameplay.Movement.canceled += MovementOncanceled;
         inputActions.Gameplay.CursorPosition.performed += CursorPositionOnperformed;
@@ -57,7 +63,14 @@ public class Player : MonoBehaviour
         {
             _inGameUI = FindObjectOfType<InGameUI>();
         }
+        _inGameUI.SetPlayerHealth(_playerHealth.GetMaxHitpoints(),10,_playerHealth.GetMaxHitpoints());
     }
+
+    private void PlayerTookDmg(int newamt, int oldamt, GameObject instigator)
+    {
+        _inGameUI.SetPlayerHealth(newamt, oldamt, _playerHealth.GetMaxHitpoints());
+    }
+
 
     private void TogglePause(InputAction.CallbackContext obj)
     {

@@ -12,11 +12,15 @@ public class ZombieBehaviorTree : BehaviorTree
       aiController.AddBlackboardKey("Target");
       aiController.AddBlackboardKey("LastSeenLocation");
       Selector RootSelector = new Selector(aiController);
+      
+      BTTask_Attack AttackTarget = new BTTask_Attack(aiController, "Target", 1.5f);
+      BlackboardDecorator AttackTargetDeco = new BlackboardDecorator(aiController, AttackTarget, "Target", EKeyQuery.Set, EObserverAborts.Both);
+      RootSelector.AddChild(AttackTargetDeco);
 
          BTTask_MoveTo MoveToTarget = new BTTask_MoveTo(aiController, "Target", 1.5f);
             BlackboardDecorator MoveToTargetDeco = new BlackboardDecorator(aiController, MoveToTarget, "Target", EKeyQuery.Set, EObserverAborts.Both);
             RootSelector.AddChild(MoveToTargetDeco);
-
+            
          Sequence MoveThenCheck = new Sequence(aiController);
             BTTask_MoveTo MoveToLastKnownLoc = new BTTask_MoveTo(aiController, "LastSeenLocation", 0.5f);
             BlackboardDecorator MoveToLastSeenLocDeco = new BlackboardDecorator(aiController, MoveToLastKnownLoc, "LastSeenLocation", EKeyQuery.Set, EObserverAborts.Both);
