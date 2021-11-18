@@ -35,7 +35,7 @@ public class BTTask_Attack : BTNode
 
     public override EBTTaskResult UpdateTask()
     {
-        throw new System.NotImplementedException();
+        return EBTTaskResult.Running;
     }
 
     public override void FinishTask()

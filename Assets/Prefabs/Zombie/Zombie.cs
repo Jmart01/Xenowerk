@@ -22,6 +22,7 @@ public class Zombie : MonoBehaviour
         _healthComponent = GetComponent<HealthComponent>();
         _animator = GetComponent<Animator>();
         _sightPerceptionComp = GetComponent<SightPerceptionComp>();
+        _aiController = GetComponent<AIController>();
         UpperBodyIndex = _animator.GetLayerIndex("UpperBody");
 
         if (_healthComponent)
@@ -39,6 +40,7 @@ public class Zombie : MonoBehaviour
     private void Attack()
     {
         _animator.SetLayerWeight(UpperBodyIndex,1);
+        Debug.Log("Attacking Player");
     }
 
     private void Dead()
